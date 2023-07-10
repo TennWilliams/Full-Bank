@@ -1,5 +1,5 @@
 <a href="https://github.com/TennWilliams/Full-Bank"> Full Banking App </a>
-# Banking App
+# Full Banking App
 <img src="FullBank.jpg" width="600" height="400">
 This is a full banking app where a user can create an account, log in to their account, make a withdraw, make a deposit and see all of their transactions on a flip card. It connects to a database which stores the users information such as email address, password and balance.
 
