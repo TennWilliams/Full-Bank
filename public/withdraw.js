@@ -35,6 +35,12 @@ function Withdraw(){
         setWithdraw('');
         return;
       }
+      if (user.balance < withdraw){
+        setStatus(`You do not have enough money to withdraw $${withdraw}. Your Account Balance is $${user.balance} Try a different amount.`);
+        setTimeout(() => setStatus(''),4000);
+        clearForm();
+        return;
+      }
     else{
     user.balance = user.balance - Number(withdraw);
     setBalance(user.balance);
@@ -82,6 +88,7 @@ function clearForm(){
      ):(
       <>
     <h5>You Have Successfully Made A Withdraw</h5>
+    <h5>Your Account Balance is ${balance}</h5>
     <h5>What Would You like To Do Next?</h5><br></br>
     <button type="submit" id="log"
       className="btn btn-info" 
