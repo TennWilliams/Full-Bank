@@ -1,6 +1,29 @@
 function NavBar(){
   const ctx = React.useContext(UserContext);
-  const [email, setEmail]       = React.useState('');
+  const [data, setData]       = React.useState('');
+  //data = JSON.stringify(window.localStorage.getItem("token"))
+  //setData(data.data);
+  
+   fetch("http://localhost:3000/userData", {
+    method: "POST",
+    mode: "cors",
+    crossDomain: true,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Orgin": "*",
+    },
+    body: JSON.stringify({
+      token: localStorage.getItem("token"),
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data, "userData");
+      setData(data.data);
+
+    });
+  
 
   function logOut(){
       logoutBtn.style.visibility="hidden";
@@ -8,11 +31,14 @@ function NavBar(){
       navBtn2.style.visibility="hidden";
       navBtn3.style.visibility="hidden";
       navBtn4.style.visibility="hidden";
+      setData('');
+      window.localStorage.clear();
       window.location.href="#";
-      localStorage.clear();
-      alert('You Have Successfully Logged Out.\nHave A Wonderful Day!')
+      alert('You Have Successfully Logged Out.\nHave A Wonderful Day!');
+      
   }
 
+  
   return(
 
     <nav className="navbar navbar-expand-lg navbar-light">
@@ -44,22 +70,23 @@ function NavBar(){
         </ul> 
       </div>
 
-    <div class="dropdown" id="logoutBtn">
-    <button class="navbar-brand dropdown-toggle" style={{color:"blanchedalmond"}} type="button" id="dropdownMenuButton" data-toggle="dropdown" title="User Menu"aria-haspopup="true" aria-expanded="false">
-      User Info
+    <div className="dropdown" id="logoutBtn">
+    <button className="navbar-brand dropdown-toggle" style={{color:"blanchedalmond", fontWeight:"unset"}} id="dropdownMenuButton" data-toggle="dropdown" title="User Menu"aria-haspopup="true" aria-expanded="false" > User Info
     </button>
     
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" id="userinfo" title="User" value={email}>Name: </a>
-    <div class="dropdown-divider"></div>
-      <a role="button" class="btn btn-primary" title="Logout" onClick={logOut}>Logout</a>
+    <div className="dropdown-menu"  aria-labelledby="dropdownMenuButton" style={{backgroundColor:"palevioletred", minWidth:"fitContent"}}>
+    <p className="dropdown-item" id="userName" style={{color: "purple", marginBottom:"0px", fontWeight:"bold"}}>User Name: {data.name}</p>
+    <p className="dropdown-item" id="user" style={{color: "purple", marginBottom:"0px", fontWeight:"bold"}}>User Email: {data.email}
+    </p>
+    
+    <div className="dropdown-divider"></div>
+      <a role="button" className="btn btn-primary" style={{display:"flex" ,justifyContent:"center"}} title="Logout" onClick={logOut}>Logout</a>
   </div>
-</div>
-        
-      
-
-    </nav>
+</div>  
     
 
-  );
+    </nav>
+  
+  )
 }
+

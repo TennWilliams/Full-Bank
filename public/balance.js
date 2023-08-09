@@ -6,18 +6,41 @@ function Balance(){
 
   const ctx = React.useContext(UserContext);  
 
-  function validate(field, label){
+    fetch("http://localhost:3000/userData", {
+    method: "POST",
+    mode: "cors",
+    crossDomain: true,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Orgin": "*",
+    },
+    body: JSON.stringify({
+      token: localStorage.getItem("token"),
+    }),
+  })
+    
+    .then((res) => res.json())
+    .then((data) => {
+    console.log(data, "userData");
+    setBalance(data.data);
+    });
+    
+  
+
+
+ /* function validate(field, label){
     if (!field) {
       setStatus('Enter your ' + label);
       setTimeout(() => setStatus(''),3000);
       return false;
      }
      return true;
- }
+ }*/
 
      function handle(){
-      const user = ctx.users.find((user) => user.email == email);
-      if (!validate(email,    'email'))    
+      //const user = ctx.users.find((user) => user.email == email);
+    /*  if (!validate(email,    'email'))    
       return false;
       
       if (!user) {
@@ -25,9 +48,9 @@ function Balance(){
         setTimeout(() => setStatus(''),3000);   
         setEmail('');
         return;      
-      }
+      }*/
   
-      setBalance(user.balance);
+      
       console.log(user);      
       setShow(false);
     }
@@ -43,28 +66,9 @@ function Balance(){
     <Card
       bgcolor="secondary"
       header="See Your Balance"
-      status={status}
-      body={show ? (
-        <>
-      Email<br/>
-    <input type="input" 
-      className="form-control" 
-      placeholder="Enter Email" 
-      title="Enter Your Email"
-      value={email} 
-      onChange={e => setEmail(e.currentTarget.value)}/><br/>
-
-    <button type="submit" 
-      className="create" 
-      title="Check Balance"
-      onClick={handle}>
-        Check Balance
-    </button>
-    
-    </>
-    ):(
-    <>
-
+      
+      body={
+        
     <div className="flip-card" style={{width: "250px", height:"60px", 
                 marginLeft:"17vw"}}>
               <div className="flip-card-inner">
@@ -74,19 +78,11 @@ function Balance(){
               </div>
               <div className="flip-card-back" style={{color: "white",   
                     backgroundColor:"palevioletred", fontSize:"20px"}}>
-                    Your Account Balance is <br></br> ${balance}  
+                    Your Account Balance is <br></br> ${balance.balance}  
               </div>
               </div>
-    </div><br></br>   
-    
-    <button type="submit" 
-      className="create" 
-      title="Check Balance Again"
-      onClick={clearForm}>
-      Check Balance Again
-    </button>
-    </>
-            )}
+    </div>
+      }
   />
-  )
+  );
 }

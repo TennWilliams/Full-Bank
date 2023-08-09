@@ -32,8 +32,28 @@ function handleCreate(){
   if (!validate(password, 'password')) 
   return false;
 
-  else
-  ctx.users.push({name,email,password,balance:100});
+  fetch("http://localhost:3000/CreateAccount", {
+    method: "POST",
+    mode: "cors",
+    crossDomain: true,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Orgin": "*",
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      password,
+    }),
+  })
+    .then((res) => res.json)
+    .then((data) => {
+      console.log(data, "userRegister");
+    });
+
+
+ // ctx.users.push({name,email,password,balance:100});
   setShow(false);
 }    
 
@@ -93,7 +113,7 @@ function clearForm(){
       <h5 style={{color: "royalblue"}}>Here Are Your Credentials:</h5>
       <h5 style={{color: "palevioletred"}}>Name: {name}, Email: {email}, Password: {password}</h5>
       <br></br>
-      <h5 style={{color: "royalblue"}}>To View Account Information Or Make A Transaction Please Login</h5><br></br>
+      <h5 style={{color: "royalblue"}}>To view account information or make a transaction please login</h5><br></br>
       <button type="submit" 
         className="btn btn-outline-info" 
         id="log" 

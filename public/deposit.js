@@ -6,28 +6,32 @@ function Deposit(){
   const [balance, setBalance] = React.useState();
   const ctx = React.useContext(UserContext);  
 
-  function validate(field, label){
-    if (!field) {
-      setStatus('Enter your ' + label);
-      setTimeout(() => setStatus(''),3000);
-      setAmount('');
-      return false;
-     }
-     return true;
- }
-  
+  fetch("http://localhost:3000/userData", {
+    method: "POST",
+    mode: "cors",
+    crossDomain: true,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Orgin": "*",
+    },
+    body: JSON.stringify({
+      token: localStorage.getItem("token"),
+    }),
+  })
+    
+    .then((res) => res.json())
+    .then((data) => {
+    console.log(data, "userData");
+    setBalance(data.data.balance);
+    });
+
+    
+
   function handle(){
-    console.log(email,amount);
-    const user = ctx.users.find((user) => user.email == email);
-    if (!validate(email,    'email'))    
-      return false;
-      
-      if (!user) {
-        setStatus('Incorrect Email Address')  
-        setTimeout(() => setStatus(''),3000);    
-        clearForm();
-        return;      
-      }
+    console.log(amount);
+  //  const user = ctx.users.find((user) => user.email == email);
+     
       if (amount <= 0) {
         setStatus('Amount must be greater than 0');
         setTimeout(() => setStatus(''),3000);
@@ -35,10 +39,13 @@ function Deposit(){
         return;
       }
     else{
-    user.balance = user.balance + Number(amount);
-    setBalance(user.balance);
-    console.log(user);  
-    ctx.users.push({email, amount, balance});
+
+    const total = balance + Number(amount);
+    setBalance(total);
+    
+    //window.localStorage.setItem("balance", total);
+    console.log(total);  
+   //ctx.users.push({email, balance});
     setShow(false);
   }
 }
@@ -55,14 +62,7 @@ function Deposit(){
       header="Make A Deposit"
       status={status}
       body={show ? (   
-    <>
-
-      Email
-      <input type="input" 
-      className="form-control" 
-      placeholder="Enter Email" 
-      title="Enter Your Email"
-      value={email} onChange={e => setEmail(e.currentTarget.value)}/><br/>        
+    <>        
       
       <h4>How Much Would You Like To Deposit?</h4><br></br>
       Amount
@@ -83,7 +83,7 @@ function Deposit(){
       <>
 
     <h5>You Have Successfully Made A Deposit</h5>
-    <h5>Your Account Balance is ${balance}</h5>
+    <h5>Your Account Balance is ${balance.balance}</h5>
     <h5>What Would You like To Do Next?</h5><br></br>
     <button type="submit" id="log"
       className="btn btn-info" title="Deposit"

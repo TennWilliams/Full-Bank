@@ -1,6 +1,16 @@
 function AllData(){
   const ctx = React.useContext(UserContext);
+  const [data, setData]       = React.useState([]);
   const dataArray = ctx.users;
+
+  fetch("http://localhost:3000/alldata", {
+    method: "GET",
+    })
+    .then((res) => res.json)
+    .then((data) => {
+      console.log(data, "userData");
+    });
+
   return (
     <Card
       bgcolor="light"
@@ -10,12 +20,12 @@ function AllData(){
       <div className="flip-card-inner">
         <div className="flip-card-front">
           <br></br><br></br>
-          <p>Click Or Hover To See All Accounts</p>
+          <p>Click Or Hover To See All Transactions</p>
           
         </div>
         <div className="flip-card-back" >
         <h5>List Of All Accounts</h5>
-        <table class="table table-bordered">
+        <table className="table table-bordered">
         <thead>
           <tr>
           <th scope="col">Account</th>

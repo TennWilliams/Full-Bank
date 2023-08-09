@@ -21,9 +21,10 @@ function Login(){
      return true;
   }
 
-  function handle(){
-    const user = ctx.users.find((user) => user.email == email);
-    console.log(user);
+  function handle(e){
+   //const user = ctx.users.find((user) => user.email == email);
+   //console.log(user);
+   e.preventDefault();
     console.log(email, password);
       
     if (!validate(email,    'email'))    
@@ -32,7 +33,60 @@ function Login(){
     if (!validate(password, 'password')) 
     return false;
 
-    if (!user) {
+    fetch("http://localhost:3000/login", {
+      method: "POST",
+      crossDomain: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then(async (data) => {
+        console.log(data, "userRegister");
+        if (data.error) {
+          console.log(data.error);
+          setStatus('Error: ' + data.error);
+          setTimeout(() => setStatus(''),3000);
+          clearForm();
+        }
+        
+        
+        else  {
+          //let user = JSON.stringify(data);
+      
+          //ctx.email = user.email;
+          //ctx.password = user.password;
+          //ctx.balance = user.balance;
+          JSON.stringify(window.localStorage.getItem("token"))
+          
+          window.localStorage.setItem("token", data.data);
+          window.localStorage.setItem("loggedIn", true);
+          window.localStorage.setItem("email", JSON.stringify(data.email));
+          window.localStorage.setItem("balance", data.data.balance);
+          window.localStorage.setItem("name", data.data.name);
+          setStatus('');
+          setShow(false);
+          logoutBtn.style.visibility="visible";
+          navBtn.style.visibility="visible";
+          navBtn2.style.visibility="visible";
+          navBtn3.style.visibility="visible";
+          navBtn4.style.visibility="visible";
+          console.log(data.balance);
+          }
+        //refreshData(); 
+        
+      });
+      
+    }
+    
+
+  /*  if (!user) {
       console.log('one')      
       setStatus('Incorrect Email or Password')      
       setTimeout(() => setStatus(''),3000);
@@ -48,13 +102,14 @@ function Login(){
       navBtn2.style.visibility="visible";
       navBtn3.style.visibility="visible";
       navBtn4.style.visibility="visible";
+      userinfo.value=email;
       return;      
     }
     console.log('three')          
     setStatus('Incorrect Password');      
     setTimeout(() => setStatus(''),3000);  
-    setPassword('');
-  }
+    setPassword('');*/
+  
 
   function clearForm(){
     setEmail('');
@@ -65,7 +120,7 @@ function Login(){
   return (
     <Card
       bgcolor="info"
-      header="Login To Your Account"
+      header="Login To Your Account" 
       status={status}
       body={show ? (
         
@@ -94,6 +149,7 @@ function Login(){
   </>
 ):(
   <>
+  
   <h5>You Have Successfully Logged In As User: {email}</h5><br></br>
     <h5>What Would You like To Do Next?</h5><br></br>
     <button type="submit" id="log"
@@ -113,4 +169,6 @@ function Login(){
 )}
 />
 )
+
 }
+

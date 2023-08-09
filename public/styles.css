@@ -58,6 +58,8 @@
     margin-bottom: 1vw;
 }
 
+
+
 .flip-card {
     background-color: transparent;
    /* width: 650px;*/
@@ -98,6 +100,7 @@
     color: purple;
     font-size: 15px;
     transform: rotateY(180deg);
+    min-width: fit-content;
   }
 
   .create {
@@ -131,9 +134,10 @@
 }
 
 #logoutBtn{
-  visibility: hidden;
+ /* visibility: hidden;*/
+  margin-right: 3vw;
 }
-
+/*
 #navBtn{
   visibility: hidden;
 }
@@ -149,3 +153,4 @@
 #navBtn4{
   visibility: hidden;
 }
+*/

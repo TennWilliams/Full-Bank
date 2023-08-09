@@ -1,4 +1,7 @@
 function Spa() {
+ // const isLoggedIn = window.localStorage.getItem("loggedIn");
+
+ 
   return (
     <HashRouter>
       <div>
