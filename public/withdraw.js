@@ -6,7 +6,7 @@ function Withdraw(){
   const [balance, setBalance] = React.useState();
   const ctx = React.useContext(UserContext);  
 
-  fetch("https://Tennille-WilliamsFullStackBankingApplication/userData", {
+  fetch("https://Tennille-WilliamsFullStackBankingApplication.onrender.com/userData", {
     method: "POST",
     mode: "cors",
     crossDomain: true,

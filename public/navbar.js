@@ -4,7 +4,7 @@ function NavBar(){
   //data = JSON.stringify(window.localStorage.getItem("token"))
   //setData(data.data);
   
-   fetch("https://Tennille-WilliamsFullStackBankingApplication/userData", {
+   fetch("https://Tennille-WilliamsFullStackBankingApplication.onrender.com/userData", {
     method: "POST",
     mode: "cors",
     crossDomain: true,
