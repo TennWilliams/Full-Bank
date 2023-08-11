@@ -6,7 +6,7 @@ function Deposit(){
   const [balance, setBalance] = React.useState();
   const ctx = React.useContext(UserContext);  
 
-  fetch("http://localhost:3000/userData", {
+  fetch("https://Tennille-WilliamsFullStackBankingApplication/userData", {
     method: "POST",
     mode: "cors",
     crossDomain: true,
@@ -43,7 +43,7 @@ function Deposit(){
     const total = balance + Number(amount);
     setBalance(total);
     
-    //window.localStorage.setItem("balance", total);
+   // window.localStorage.setItem("balance", JSON.stringify(total));
     console.log(total);  
    //ctx.users.push({email, balance});
     setShow(false);
@@ -83,7 +83,7 @@ function Deposit(){
       <>
 
     <h5>You Have Successfully Made A Deposit</h5>
-    <h5>Your Account Balance is ${balance.balance}</h5>
+    
     <h5>What Would You like To Do Next?</h5><br></br>
     <button type="submit" id="log"
       className="btn btn-info" title="Deposit"

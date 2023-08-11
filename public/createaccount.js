@@ -32,7 +32,7 @@ function handleCreate(){
   if (!validate(password, 'password')) 
   return false;
 
-  fetch("http://localhost:3000/CreateAccount", {
+  fetch("https://Tennille-WilliamsFullStackBankingApplication/CreateAccount", {
     method: "POST",
     mode: "cors",
     crossDomain: true,

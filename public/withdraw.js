@@ -6,7 +6,7 @@ function Withdraw(){
   const [balance, setBalance] = React.useState();
   const ctx = React.useContext(UserContext);  
 
-  fetch("http://localhost:3000/userData", {
+  fetch("https://Tennille-WilliamsFullStackBankingApplication/userData", {
     method: "POST",
     mode: "cors",
     crossDomain: true,
