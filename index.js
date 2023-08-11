@@ -2,6 +2,7 @@ const express  = require('express');
 const app      = express();
 const cors     = require('cors');
 const mongoose = require('mongoose');
+//const disableReactDevTools = require('fvilers/disable-react-devtools');
 //var dal     = require('./dal.js');
 app.use(express.json());
 const bcrypt = require("bcryptjs");
@@ -10,6 +11,8 @@ const jwt=require("jsonwebtoken");
 const JWT_SECRET= "thmhidnwnifn()ayfn693dkd0677nf11gjsnaxb49gjdh30?90[]567"; 
 
 const mongoUrl="mongodb+srv://tennwilliams917:Maliyah21@cluster0.lhltver.mongodb.net/?retryWrites=true&w=majority"
+
+//if(process.env.NODE_Env === 'production') disableReactDevTools()
 
 mongoose.connect(mongoUrl,{
     useNewUrlParser:true
@@ -82,20 +85,17 @@ app.post("/userData", async (req, res) => {
     });
 
 //balance
-app.post("/balance", async (req, res) => {
-    const {token} = req.params;
+app.put("/balance", async (req, res) => {
+    const {token, balance} = req.body;
+    console.log("token", token)
+    console.log("balance", balance)
     try{
         const user=jwt.verify(token, JWT_SECRET);
         const useremail = user.email;
-        const userbalance = user.balance;
+        
         User.findOneAndUpdate({ email: useremail},
                      { $set: {balance: userbalance}})
-            .then((data) => {
-                res.send({ status: "ok", data: data});
-            })
-            .catch((error) => {
-                res.send({ status:"error", data: error});
-            });
+            
         } catch (error) {}
         });
 
